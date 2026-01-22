@@ -1,90 +1,190 @@
 # =====================================================
 # FastAPI Student Management System
 # =====================================================
-# This module implements a RESTful API for managing
-# student data with multiple query methods
+"""
+Main application module implementing a RESTful API for 
+managing student data with multiple query methods.
+Includes CRUD operations and comprehensive error handling.
+"""
 
 # Import necessary modules from FastAPI
-from fastapi import FastAPI, Path  # FastAPI framework and Path validator
-from typing import Optional  # For optional type hints
+from fastapi import FastAPI, Path, HTTPException, status  # FastAPI framework components
+from typing import List, Optional  # Type hints
+from config import settings  # Configuration management
+from models import Student, StudentCreate, StudentUpdate, StudentResponse  # Pydantic models
+from database import StudentDatabase  # Database operations
 
 # =====================================================
 # Application Setup
 # =====================================================
-# Create a FastAPI application instance
-# This will automatically generate OpenAPI documentation
-app = FastAPI()
-
-# =====================================================
-# Data Models
-# =====================================================
-# Sample student data dictionary with student ID as key
-# Each student record contains: name, age, and year information
-students = {
-    1: {
-        "name": "John Doe",
-        "age": 21,
-        "year": "Year 12"  
-    },
-    2: {
-        "name": "Jane Smith",
-        "age": 22,
-        "year": "Year 13"  
-    }
-}
+# Create a FastAPI application instance with metadata
+# This automatically generates OpenAPI documentation
+app = FastAPI(
+    title=settings.APP_NAME,
+    version=settings.APP_VERSION,
+    description="A REST API for managing student records with full CRUD operations"
+)
 
 # =====================================================
 # API Endpoints
 # =====================================================
 
-# Root endpoint - Returns basic greeting message
-# Route: GET /
-@app.get("/")
+# Root endpoint - Returns basic greeting and API info
+@app.get("/", tags=["Root"])
 def index():
     """
-    Root endpoint that returns a welcome message.
+    Root endpoint that returns API information.
     
     Returns:
-        dict: A greeting message
+        dict: API name and status
     """
-    return {"name": "First Data"}
+    return {
+        "name": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+        "status": "running"
+    }
+
+# Health check endpoint
+@app.get("/health", tags=["Health"])
+def health_check():
+    """
+    Health check endpoint for monitoring.
+    
+    Returns:
+        dict: Health status
+    """
+    return {"status": "healthy", "service": settings.APP_NAME}
+
+# =====================================================
+# Student Endpoints - GET Operations
+# =====================================================
+
+# Get all students
+@app.get("/students", response_model=List[Student], tags=["Students"])
+def get_all_students():
+    """
+    Retrieve all students from the database.
+    
+    Returns:
+        List[Student]: List of all student objects
+    """
+    return StudentDatabase.get_all()
 
 # Get student by ID with validation
-# Route: GET /get-student/{student_id}
-# Validation: student_id must be between 1 and 2 (gt=0, lt=3)
-@app.get("/get-student/{student_id}")
-def get_student(student_id: int = Path(..., description="The ID of the student you want to get", gt=0, lt=3)):
+@app.get("/students/{student_id}", response_model=Student, tags=["Students"])
+def get_student(student_id: int = Path(..., gt=0, description="The ID of the student to retrieve")):
     """
     Retrieve a specific student by their ID.
     
     Args:
-        student_id (int): The student's ID (must be 1 or 2)
+        student_id (int): The student's ID (must be greater than 0)
     
     Returns:
-        dict: Student object containing name, age, and year
+        Student: Student object containing name, age, and year
     
     Raises:
-        KeyError: If student_id doesn't exist
+        HTTPException: If student_id doesn't exist (404)
     """
-    return students[student_id]
+    student = StudentDatabase.get_by_id(student_id)
+    if not student:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Student with ID {student_id} not found"
+        )
+    return student
 
 # Get student by name using query parameter
-# Route: GET /get-by-name?name=<student_name>
-# This allows flexible searching by student name
-@app.get("/get-by-name")
-def get_student_by_name(name: Optional[str] = None):
+@app.get("/students-by-name/search", response_model=Student, tags=["Students"])
+def get_student_by_name(name: str):
     """
     Retrieve a student by their name using query parameter.
     
     Args:
-        name (Optional[str]): The student's name to search for
+        name (str): The student's name to search for
     
     Returns:
-        dict: Student object if found, otherwise "Not Found" message
+        Student: Student object if found
+    
+    Raises:
+        HTTPException: If student not found (404)
     """
-    # Iterate through all students to find matching name
-    for student_id in students:
-        if students[student_id]["name"] == name:
-            return students[student_id]
-    # Return not found message if no student matches the name
-    return {"Data": "Not Found"}
+    student = StudentDatabase.get_by_name(name)
+    if not student:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Student with name '{name}' not found"
+        )
+    return student
+
+# =====================================================
+# Student Endpoints - POST Operations (Create)
+# =====================================================
+
+# Create a new student
+@app.post("/students", response_model=Student, status_code=status.HTTP_201_CREATED, tags=["Students"])
+def create_student(student: StudentCreate):
+    """
+    Create a new student record.
+    
+    Args:
+        student (StudentCreate): Student data to create
+    
+    Returns:
+        Student: The created student object with assigned ID
+    """
+    return StudentDatabase.create(student)
+
+# =====================================================
+# Student Endpoints - PUT Operations (Update)
+# =====================================================
+
+# Update an existing student
+@app.put("/students/{student_id}", response_model=Student, tags=["Students"])
+def update_student(
+    student_id: int = Path(..., gt=0, description="The ID of the student to update"),
+    student_update: StudentUpdate = None
+):
+    """
+    Update an existing student's information.
+    
+    Args:
+        student_id (int): The student's ID to update
+        student_update (StudentUpdate): Fields to update
+    
+    Returns:
+        Student: The updated student object
+    
+    Raises:
+        HTTPException: If student not found (404)
+    """
+    if not StudentDatabase.exists(student_id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Student with ID {student_id} not found"
+        )
+    
+    updated_student = StudentDatabase.update(student_id, student_update)
+    return updated_student
+
+# =====================================================
+# Student Endpoints - DELETE Operations
+# =====================================================
+
+# Delete a student
+@app.delete("/students/{student_id}", status_code=status.HTTP_204_NO_CONTENT, tags=["Students"])
+def delete_student(student_id: int = Path(..., gt=0, description="The ID of the student to delete")):
+    """
+    Delete a student record from the database.
+    
+    Args:
+        student_id (int): The student's ID to delete
+    
+    Raises:
+        HTTPException: If student not found (404)
+    """
+    if not StudentDatabase.delete(student_id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Student with ID {student_id} not found"
+        )
+    return None
