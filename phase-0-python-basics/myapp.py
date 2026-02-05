@@ -58,14 +58,13 @@ print('Python\'s class "goes" fine!')
 # For long, multi-line messages use triple-quoted strings (''' or """).
 # Triple-quoted strings preserve newlines and are easier to read and maintain
 # than trying to embed literal newlines inside single-quoted strings.
-message = '''
-
-Hi {name},
+# Use an f-string here so the `name` variable entered earlier is included
+# instead of a hard-coded name.
+message = f'''Hi {name},
 
 This is the founder of the unicorn company who wants to talk to you. Please
 connect with me as soon as possible.
 
 Thank you
-
 '''
 print(message)
