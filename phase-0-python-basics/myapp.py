@@ -1,7 +1,16 @@
-"""Simple interactive script.
+"""Simple interactive script demonstrating basic I/O and string ops.
 
-Asks the user for their name, age, and favorite color, then prints
-an estimated year of birth and echoes the favorite color.
+This small script interacts with the user via the terminal: it asks for
+the user's name, age, favorite color and weight, then prints friendly
+responses. It's intended as an educational example for beginners to show
+how to read input, convert types, format output, and perform simple
+string operations in Python.
+
+Notes:
+- Inputs from `input()` are returned as strings; conversions (e.g. to
+	`int` or `float`) are necessary for numeric operations and may raise
+	exceptions on invalid input. In production code, validate inputs or
+	handle exceptions to re-prompt users.
 """
 
 from datetime import date
@@ -31,11 +40,13 @@ print(f"Hello, {name}! You were born in {year_of_birth}. Your favorite color is 
 
 # Ask for the user's weight in kilograms, convert to pounds and print nicely.
 # Use float to allow fractional weights and format the output for readability.
-# Note: float() may raise ValueError if the input isn't a valid number; consider
+# Note: `float()` may raise ValueError for invalid input; consider
 # validating input or catching exceptions to handle bad input gracefully.
 weight_kg = float(input("Enter your weight in kilograms (e.g. 70.5): "))
-# Convert kg to pounds (approx): 1 kg = 2.20462 lb
-weight_lb = weight_kg * 2.20462
+# Conversion constant for kilograms to pounds. Defining a named constant
+# makes the conversion clearer and easier to change or reuse.
+KG_TO_LB = 2.20462
+weight_lb = weight_kg * KG_TO_LB
 # Format specifiers used below:
 # - {weight_kg:.1f}: show kilograms with one decimal place
 # - {weight_lb:.2f}: show pounds with two decimal places
@@ -69,8 +80,15 @@ Thank you
 '''
 print(message)
 
-# Demonstrate string indexing: strings are sequences of characters and are
-# indexed starting at 0. Accessing course[4] returns the fifth character.
+# Demonstrate string indexing and slicing. Strings are sequences of
+# characters and follow 0-based indexing. Slicing `start:end` returns a
+# substring from `start` up to but not including `end`.
 course = "Python Learning"
-# This will print the character at index 4 (0-based index), which is 'o'
+#         0123456789.....
+# Individual character access (index 4 -> fifth character):
 print(course[4])
+
+# Common slicing patterns:
+print(course[0:11])   # characters 0 through 10 (11 chars)
+print(course[:11])    # same as above, start defaults to 0
+print(course[7:])     # from index 7 to the end of the string
