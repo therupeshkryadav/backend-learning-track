@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+*.pyo
+# Byte-compiled / optimized / DLL files
+# Optional: coverage and pytest cache
+.pytest_cache/
+coverage.xml
