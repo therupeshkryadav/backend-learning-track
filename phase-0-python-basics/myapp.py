@@ -92,3 +92,61 @@ print(course[4])
 print(course[0:11])   # characters 0 through 10 (11 chars)
 print(course[:11])    # same as above, start defaults to 0
 print(course[7:])     # from index 7 to the end of the string
+
+# Demonstrate how to inspect the runtime type of a variable using `type()`.
+# This prints the Python type objects for several variables collected above.
+print("Type of name:", type(name))
+print("Type of age:", type(age))
+print("Type of weight_kg:", type(weight_kg))
+print("Type of weight_lb:", type(weight_lb))
+print("Type of course:", type(course))
+# ----------------------------
+# Operator examples: arithmetic, relational, assignment, logical
+# ----------------------------
+print("\n--- Operator examples ---")
+a = 10
+b = 3
+
+# Arithmetic operators
+print("Arithmetic operators:")
+print(f"{a} + {b} = {a + b}")
+print(f"{a} - {b} = {a - b}")
+print(f"{a} * {b} = {a * b}")
+print(f"{a} / {b} = {a / b}")
+print(f"{a} // {b} = {a // b}")
+print(f"{a} % {b} = {a % b}")
+print(f"{a} ** {b} = {a ** b}")
+
+# Relational (comparison) operators
+print("\nRelational (comparison) operators:")
+print(f"{a} == {b}: {a == b}")
+print(f"{a} != {b}: {a != b}")
+print(f"{a} > {b}: {a > b}")
+print(f"{a} < {b}: {a < b}")
+print(f"{a} >= {b}: {a >= b}")
+print(f"{a} <= {b}: {a <= b}")
+
+# Assignment operators
+print("\nAssignment operators:")
+c = a
+print(f"c = {c}")
+c += b
+print(f"c += {b} -> {c}")
+c *= 2
+print(f"c *= 2 -> {c}")
+c %= 5
+print(f"c %= 5 -> {c}")
+
+# Logical operators
+print("\nLogical operators:")
+x = True
+y = False
+print(f"{x} and {y}: {x and y}")
+print(f"{x} or {y}: {x or y}")
+print(f"not {x}: {not x}")
+
+# Combining relational and logical operators
+print("\nCombined expressions:")
+age_check = age >= 18
+print(f"age >= 18 and weight_kg > 50: {age_check and weight_kg > 50}")
+print(f"(age < 30) or (weight_kg < 60): {(age < 30) or (weight_kg < 60)}")
