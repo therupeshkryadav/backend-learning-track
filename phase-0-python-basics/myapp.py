@@ -353,3 +353,346 @@ print("\nCombined expressions:")
 age_check = age >= 18
 print(f"age >= 18 and weight_kg > 50: {age_check and weight_kg > 50}")
 print(f"(age < 30) or (weight_kg < 60): {(age < 30) or (weight_kg < 60)}")
+
+# ==============================================================================================
+# CONDITIONAL STATEMENTS - COMPREHENSIVE GUIDE
+# ==============================================================================================
+print("\n" + "="*80)
+print("CONDITIONAL STATEMENTS (if/elif/else)")
+print("="*80)
+
+# 1. SIMPLE IF STATEMENT
+print("\n1. SIMPLE IF STATEMENT:")
+print("   Syntax: if condition:")
+print("       statement(s)")
+number = 10
+if number > 5:
+    print(f"   '{number}' is greater than 5")
+
+# 2. IF-ELSE STATEMENT
+print("\n2. IF-ELSE STATEMENT:")
+print("   Syntax: if condition:")
+print("       statement(s)")
+print("   else:")
+print("       statement(s)")
+temperature = 15
+if temperature > 20:
+    print(f"   Temperature {temperature}°C is warm")
+else:
+    print(f"   Temperature {temperature}°C is cold")
+
+# 3. IF-ELIF-ELSE STATEMENT (multiple conditions)
+print("\n3. IF-ELIF-ELSE STATEMENT (multiple conditions):")
+print("   Syntax: if condition1:")
+print("       statement(s)")
+print("   elif condition2:")
+print("       statement(s)")
+print("   else:")
+print("       statement(s)")
+score = 75
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"
+elif score >= 70:
+    grade = "C"
+elif score >= 60:
+    grade = "D"
+else:
+    grade = "F"
+print(f"   Score {score} -> Grade: {grade}")
+
+# 4. NESTED IF STATEMENTS
+print("\n4. NESTED IF STATEMENTS:")
+print("   Conditions inside conditions")
+user_age = age
+is_citizen = True
+if user_age >= 18:
+    if is_citizen:
+        print(f"   {name} is eligible to vote")
+    else:
+        print(f"   {name} is not eligible to vote (not a citizen)")
+else:
+    print(f"   {name} is too young to vote")
+
+# 5. COMBINING CONDITIONS WITH LOGICAL OPERATORS
+print("\n5. COMBINING CONDITIONS WITH LOGICAL OPERATORS:")
+print("   Using 'and', 'or', 'not'")
+
+# Using 'and'
+print("\n   a) Using 'and' (both conditions must be True):")
+user_age = age
+income = 50000
+if user_age >= 21 and income > 30000:
+    print(f"   {name} qualifies for the loan (age >= 21 AND income > $30,000)")
+else:
+    print(f"   {name} does NOT qualify for the loan")
+
+# Using 'or'
+print("\n   b) Using 'or' (at least one condition must be True):")
+is_student = False
+is_senior = user_age >= 65
+if is_student or is_senior:
+    print(f"   {name} gets a discount (student OR senior)")
+else:
+    print(f"   {name} does NOT get a discount")
+
+# Using 'not'
+print("\n   c) Using 'not' (negates condition):")
+is_raining = False
+if not is_raining:
+    print(f"   Let's go outside (NOT raining)")
+else:
+    print(f"   Let's stay inside (it's raining)")
+
+# 6. PRACTICAL EXAMPLE: CATEGORY CLASSIFICATION
+print("\n6. PRACTICAL EXAMPLE: CLASSIFY AGE GROUPS")
+person_age = user_age
+if person_age < 13:
+    category = "Child"
+elif person_age < 20:
+    category = "Teenager"
+elif person_age < 65:
+    category = "Adult"
+else:
+    category = "Senior"
+print(f"   {name} (age {person_age}) is classified as: {category}")
+
+# 7. PRACTICAL EXAMPLE: VALIDATION
+print("\n7. PRACTICAL EXAMPLE: INPUT VALIDATION")
+user_password = "SecurePass123"
+password_valid = True
+
+if len(user_password) < 8:
+    password_valid = False
+    print("   ✗ Password is too short (minimum 8 characters)")
+elif not any(char.isdigit() for char in user_password):
+    password_valid = False
+    print("   ✗ Password must contain at least one digit")
+elif not any(char.isupper() for char in user_password):
+    password_valid = False
+    print("   ✗ Password must contain at least one uppercase letter")
+elif not any(char.islower() for char in user_password):
+    password_valid = False
+    print("   ✗ Password must contain at least one lowercase letter")
+else:
+    print(f"   ✓ Password '{user_password}' is valid!")
+
+# 8. PRACTICAL EXAMPLE: WEATHER RECOMMENDATION
+print("\n8. PRACTICAL EXAMPLE: WEATHER-BASED RECOMMENDATION")
+current_temp = temperature
+if current_temp < 0:
+    recommendation = "Wear heavy winter coat and boots"
+elif current_temp < 10:
+    recommendation = "Wear jacket and warm clothes"
+elif current_temp < 20:
+    recommendation = "Wear light layers"
+elif current_temp < 30:
+    recommendation = "Wear t-shirt and shorts"
+else:
+    recommendation = "Wear sunscreen and light clothing"
+print(f"   Temperature {current_temp}°C -> {recommendation}")
+
+# 9. PRACTICAL EXAMPLE: DISCOUNT CALCULATOR
+print("\n9. PRACTICAL EXAMPLE: DISCOUNT CALCULATOR")
+purchase_amount = 150
+if purchase_amount >= 200:
+    discount = 0.20  # 20% discount
+elif purchase_amount >= 100:
+    discount = 0.10  # 10% discount
+elif purchase_amount >= 50:
+    discount = 0.05  # 5% discount
+else:
+    discount = 0  # No discount
+final_price = purchase_amount * (1 - discount)
+print(f"   Purchase: ${purchase_amount:.2f}")
+print(f"   Discount: {discount*100:.0f}%")
+print(f"   Final Price: ${final_price:.2f}")
+
+# 10. COMPARISON: ONE-LINER TERNARY CONDITIONAL
+print("\n10. ONE-LINER TERNARY CONDITIONAL (Conditional Expression):")
+print("   Syntax: value_if_true if condition else value_if_false")
+age_category = "Adult" if user_age >= 18 else "Minor"
+print(f"   {name} is a {age_category} (using ternary expression)")
+
+# Ternary with multiple conditions
+status = "Pass" if score >= 60 else "Fail"
+print(f"   Score {score} -> {status}")
+
+# Nested ternary (not recommended for readability)
+priority = "High" if score >= 90 else ("Medium" if score >= 70 else "Low")
+print(f"   Score {score} -> Priority: {priority}")
+
+# ==============================================================================================
+# GREATEST AMONG 3 NUMBERS - COMPREHENSIVE GUIDE
+# ==============================================================================================
+print("\n" + "="*80)
+print("GREATEST AMONG 3 NUMBERS")
+print("="*80)
+
+# METHOD 1: Using if-elif-else statements
+print("\n1. METHOD 1: Using if-elif-else statements")
+print("   Input 3 numbers and find the greatest using conditional logic")
+
+num1 = 15
+num2 = 42
+num3 = 28
+
+print(f"   num1 = {num1}, num2 = {num2}, num3 = {num3}")
+
+if num1 >= num2 and num1 >= num3:
+    greatest = num1
+    print(f"   → Greatest: {greatest} (num1)")
+elif num2 >= num3:
+    greatest = num2
+    print(f"   → Greatest: {greatest} (num2)")
+else:
+    greatest = num3
+    print(f"   → Greatest: {greatest} (num3)")
+
+# METHOD 2: Using nested if-else
+print("\n2. METHOD 2: Using nested if-else statements")
+print("   Simpler approach: compare first two, then compare with third")
+
+num1 = 15
+num2 = 42
+num3 = 28
+
+print(f"   num1 = {num1}, num2 = {num2}, num3 = {num3}")
+
+if num1 > num2:
+    if num1 > num3:
+        greatest = num1
+    else:
+        greatest = num3
+else:
+    if num2 > num3:
+        greatest = num2
+    else:
+        greatest = num3
+
+print(f"   → Greatest: {greatest}")
+
+# METHOD 3: Using built-in max() function (RECOMMENDED)
+print("\n3. METHOD 3: Using built-in max() function (RECOMMENDED)")
+print("   Most Pythonic and elegant approach")
+
+num1 = 15
+num2 = 42
+num3 = 28
+
+print(f"   num1 = {num1}, num2 = {num2}, num3 = {num3}")
+greatest = max(num1, num2, num3)
+print(f"   greatest = max({num1}, {num2}, {num3})")
+print(f"   → Greatest: {greatest}")
+
+# METHOD 4: Using ternary conditional expressions
+print("\n4. METHOD 4: Using ternary conditional expressions (one-liner)")
+
+num1 = 15
+num2 = 42
+num3 = 28
+
+print(f"   num1 = {num1}, num2 = {num2}, num3 = {num3}")
+greatest = num1 if (num1 >= num2 and num1 >= num3) else (num2 if num2 >= num3 else num3)
+print(f"   → Greatest: {greatest}")
+
+# METHOD 5: Function to find greatest among 3 numbers
+print("\n5. METHOD 5: Creating a reusable function")
+
+def find_greatest(a, b, c):
+    """
+    Find and return the greatest among three numbers.
+    
+    Args:
+        a, b, c: Three numbers to compare
+    
+    Returns:
+        The greatest of the three numbers
+    """
+    return max(a, b, c)
+
+num1 = 15
+num2 = 42
+num3 = 28
+
+print(f"   num1 = {num1}, num2 = {num2}, num3 = {num3}")
+result = find_greatest(num1, num2, num3)
+print(f"   find_greatest({num1}, {num2}, {num3}) = {result}")
+print(f"   → Greatest: {result}")
+
+# Test with different numbers
+test_cases = [
+    (10, 20, 30),
+    (100, 50, 75),
+    (5, 5, 5),
+    (-10, -20, -5),
+    (0, -5, 10)
+]
+
+print("\n   Testing with various inputs:")
+for a, b, c in test_cases:
+    result = find_greatest(a, b, c)
+    print(f"   find_greatest({a:4d}, {b:4d}, {c:4d}) = {result:4d}")
+
+# METHOD 6: Interactive function with user input
+print("\n6. METHOD 6: Interactive function with user input")
+print("   (This would ask for user input in interactive mode)")
+
+def greatest_interactive():
+    """
+    Interactive function to find greatest among 3 user-provided numbers.
+    """
+    print("\n   Enter three numbers:")
+    try:
+        x = float(input("   Enter first number: "))
+        y = float(input("   Enter second number: "))
+        z = float(input("   Enter third number: "))
+        
+        greatest = max(x, y, z)
+        print(f"\n   Numbers: {x}, {y}, {z}")
+        print(f"   → Greatest: {greatest}")
+        return greatest
+    except ValueError:
+        print("   Error: Please enter valid numbers!")
+        return None
+
+# Commented out to avoid blocking execution
+# greatest_interactive()
+
+print("   (Function defined but not called to avoid blocking)")
+
+# METHOD 7: Using list and max()
+print("\n7. METHOD 7: Using list and max() function")
+
+numbers = [15, 42, 28]
+print(f"   numbers = {numbers}")
+greatest = max(numbers)
+print(f"   greatest = max(numbers)")
+print(f"   → Greatest: {greatest}")
+
+# METHOD 8: Function with multiple return values
+print("\n8. METHOD 8: Return greatest and its position")
+
+def greatest_with_position(a, b, c):
+    """
+    Find greatest and return it along with its position.
+    
+    Returns:
+        Tuple: (greatest_value, position: 1, 2, or 3)
+    """
+    numbers = [a, b, c]
+    greatest = max(numbers)
+    position = numbers.index(greatest) + 1
+    return greatest, position
+
+num1 = 15
+num2 = 42
+num3 = 28
+
+print(f"   num1 = {num1}, num2 = {num2}, num3 = {num3}")
+value, pos = greatest_with_position(num1, num2, num3)
+print(f"   greatest = {value}, position = num{pos}")
+print(f"   → Greatest: {value} (at position {pos})")
+
+print("\n" + "="*80)
