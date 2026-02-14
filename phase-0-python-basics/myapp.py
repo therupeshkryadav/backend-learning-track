@@ -15,62 +15,33 @@ Notes:
 
 from datetime import date
 
-# Ask for the user's name (stored as a string)
+# Get user inputs
 name = input("Enter your name: ")
 
-# Ask for the user's age and convert the response to an integer.
-# Converting here allows arithmetic operations on the age value.
-# Note: converting user input with int() will raise ValueError if the input
-# isn't a valid integer. In production code you should validate input or
-# catch exceptions and re-prompt the user for correct input.
+# Convert age to int for arithmetic operations
+# Note: int() raises ValueError on invalid input—validate in production
 age = int(input("Enter your age: "))
 
-# Ask for the user's favorite color (stored as a string)
 color = input("Enter your favorite color: ")
 
-# Compute an approximate year of birth using the current year.
-# Note: this assumes the user has already had their birthday this year.
-# If you want an exact birth year, ask for the birth date (year/month/day)
-# and compute accordingly.
+# Calculate year of birth (assumes birthday already passed this year)
 year_of_birth = date.today().year - age
 
-# Output a friendly message using an f-string (formatted string literal)
-# which interpolates the variables directly into the string.
 print(f"Hello, {name}! You were born in {year_of_birth}. Your favorite color is {color}.")
 
-# Ask for the user's weight in kilograms, convert to pounds and print nicely.
-# Use float to allow fractional weights and format the output for readability.
-# Note: `float()` may raise ValueError for invalid input; consider
-# validating input or catching exceptions to handle bad input gracefully.
+# Accept weight as float and convert to pounds
 weight_kg = float(input("Enter your weight in kilograms (e.g. 70.5): "))
-# Conversion constant for kilograms to pounds. Defining a named constant
-# makes the conversion clearer and easier to change or reuse.
-KG_TO_LB = 2.20462
+KG_TO_LB = 2.20462  # Conversion constant
 weight_lb = weight_kg * KG_TO_LB
-# Format specifiers used below:
-# - {weight_kg:.1f}: show kilograms with one decimal place
-# - {weight_lb:.2f}: show pounds with two decimal places
+# Format: .1f = 1 decimal place, .2f = 2 decimal places
 print(f"Thanks, {name}! Your weight is {weight_kg:.1f} kg (~{weight_lb:.2f} lb).")
 
-# Demonstrate string quoting rules when text contains an apostrophe:
-# - Python supports both single ('...') and double ("...") quoted strings.
-# - If the string contains an apostrophe (single quote), using double quotes
-#   avoids the need for escaping. For example:
-#     print("Python's class goes fine!")
-#   Alternatively, you can escape the apostrophe inside single quotes:
-#     print('Python\'s class goes fine!')
-# Here we use double quotes for readability.
+# Use double quotes to avoid escaping apostrophes
 print("Python's class goes fine!")
-# Using single quotes here requires escaping the apostrophe (\') but lets us
-# include double quotes inside the string without escaping, which can improve
-# readability when quoting words inside the string.
+# Using single quotes requires escaping apostrophes but allows unescaped double quotes
 print('Python\'s class "goes" fine!')
 
-# For long, multi-line messages use triple-quoted strings (''' or """).
-# Triple-quoted strings preserve newlines and are easier to read and maintain
-# than trying to embed literal newlines inside single-quoted strings.
-# Use an f-string here so the `name` variable entered earlier is included
-# instead of a hard-coded name.
+# Triple-quoted strings preserve newlines for multi-line messages
 message = f'''Hi {name},
 
 This is the founder of the unicorn company who wants to talk to you. Please
@@ -83,7 +54,6 @@ print(message)
 # ----------------------------
 # STRING CONCATENATION EXAMPLES
 # ----------------------------
-# String concatenation means joining strings together. There are several ways:
 
 # Method 1: Using the + operator
 first_name = "John"
@@ -104,13 +74,12 @@ print(f"Using .join(): {sentence}")
 # ----------------------------
 # LEN() FUNCTION EXAMPLES
 # ----------------------------
-# The len() function returns the number of characters in a string.
 
 print(f"\n--- len() Function ---")
 test_string = "Python"
 print(f"len('{test_string}') = {len(test_string)}")
 
-# Count characters including spaces and punctuation
+# len() counts all characters including spaces and punctuation
 test_message = "Hello, World!"
 print(f"len('{test_message}') = {len(test_message)}")
 
@@ -127,28 +96,215 @@ else:
 info = f"Welcome {name}! Your name '{name}' has {len(name)} letters."
 print(f"\nCombined example: {info}")
 
-# Demonstrate string indexing and slicing. Strings are sequences of
-# characters and follow 0-based indexing. Slicing `start:end` returns a
-# substring from `start` up to but not including `end`.
+# ==============================================================================================
+# STRING INDEXING & SLICING - COMPREHENSIVE GUIDE
+# ==============================================================================================
+print(f"\n--- STRING INDEXING & SLICING ---")
+
 course = "Python Learning"
-#         0123456789.....
-# Individual character access (index 4 -> fifth character):
-print(course[4])
+print(f"String: '{course}'")
+print(f"Indices: {' '.join(str(i) for i in range(len(course)))}")
+print(f"Characters: {' '.join(course)}")
 
-# Common slicing patterns:
-print(course[0:11])   # characters 0 through 10 (11 chars)
-print(course[:11])    # same as above, start defaults to 0
-print(course[7:])     # from index 7 to the end of the string
+# IMPORTANT: Python indexing is 0-based, meaning the first character is at index 0
 
-# Demonstrate how to inspect the runtime type of a variable using `type()`.
-# This prints the Python type objects for several variables collected above.
+# SINGLE CHARACTER ACCESS (Indexing)
+print("\n1. SINGLE CHARACTER ACCESS (Indexing):")
+print(f"  course[0] = '{course[0]}'   # First character")
+print(f"  course[1] = '{course[1]}'   # Second character")
+print(f"  course[4] = '{course[4]}'   # Fifth character (P-y-t-h-o)")
+print(f"  course[-1] = '{course[-1]}'  # Last character (negative index)")
+print(f"  course[-2] = '{course[-2]}'  # Second-to-last character")
+
+# SLICING BASICS - Syntax: string[START:STOP:STEP]
+print("\n2. BASIC SLICING (syntax: [START:STOP:STEP]):")
+print(f"  IMPORTANT: STOP is EXCLUSIVE (not included in the slice)")
+
+print("\n  2a. START:STOP (common case, step=1 by default):")
+print(f"    course[0:6] = '{course[0:6]}'    # Characters at indices 0,1,2,3,4,5 (NOT 6)")
+print(f"    course[7:15] = '{course[7:15]}'  # From index 7 to 14 (spaces not included)")
+
+print("\n  2b. :STOP (start defaults to 0):")
+print(f"    course[:6] = '{course[:6]}'      # Same as course[0:6]")
+print(f"    course[:1] = '{course[:1]}'      # Just the first character")
+print(f"    course[:0] = '{course[:0]}'      # Empty string (stops before index 0)")
+
+print("\n  2c. START: (stop defaults to end of string):")
+print(f"    course[7:] = '{course[7:]}'      # From index 7 to the end")
+print(f"    course[0:] = '{course[0:]}'      # Entire string (from start to end)")
+
+print("\n  2d. Negative indices (count backwards from end):")
+print(f"    course[-8:] = '{course[-8:]}'    # Last 8 characters")
+print(f"    course[:-7] = '{course[:-7]}'    # Everything except the last 7 characters")
+print(f"    course[-6:-1] = '{course[-6:-1]}'  # Characters from -6 to -1 (excludes last)")
+
+print("\n3. SLICING WITH STEP (syntax: [START:STOP:STEP]):")
+print(f"  course[::2] = '{course[::2]}'      # Every 2nd character (start:stop defaults, step=2)")
+print(f"  course[::3] = '{course[::3]}'      # Every 3rd character")
+print(f"  course[1::2] = '{course[1::2]}'    # Every 2nd char starting from index 1")
+
+print("\n4. STEP = -1 (REVERSING):")
+print(f"  course[::-1] = '{course[::-1]}'    # Reverse entire string")
+print(f"  course[10:2:-1] = '{course[10:2:-1]}'  # Reverse from index 10 down to (but not including) 2")
+
+print("\n5. STEP = -2 (REVERSE, every 2nd character):")
+print(f"  course[::-2] = '{course[::-2]}'    # Reverse, every 2nd character")
+
+print("\n6. EDGE CASES (slicing is safe—no errors on out-of-bounds):")
+print(f"  course[5:5] = '{course[5:5]}'      # Empty (start == stop)")
+print(f"  course[10:5] = '{course[10:5]}'    # Empty (stop < start with positive step)")
+print(f"  course[100:110] = '{course[100:110]}'  # Empty (out of bounds—no error!)")
+print(f"  course[-100:5] = '{course[-100:5]}'  # Starts from beginning (negative OOB)")
+print(f"  course[5:len(course)] = '{course[5:len(course)]}'  # From index 5 to end (using len())")
+
+print("\n7. BONUS: SLICING WITH LISTS (same rules apply):")
+my_list = [10, 20, 30, 40, 50, 60, 70, 80]
+print(f"  list: {my_list}")
+print(f"  list[1:4] = {my_list[1:4]}      # Indices 1, 2, 3")
+print(f"  list[-3:] = {my_list[-3:]}      # Last 3 elements")
+print(f"  list[::2] = {my_list[::2]}      # Every 2nd element")
+print(f"  list[::-1] = {my_list[::-1]}    # Reversed")
+
+# Inspect variable types
 print("Type of name:", type(name))
 print("Type of age:", type(age))
 print("Type of weight_kg:", type(weight_kg))
 print("Type of weight_lb:", type(weight_lb))
 print("Type of course:", type(course))
+
+# ==============================================================================================
+# STRING METHODS & FUNCTIONS - COMPREHENSIVE GUIDE
+# ==============================================================================================
+print("\n" + "="*80)
+print("STRING METHODS & FUNCTIONS")
+print("="*80)
+
+test_str = "Hello World"
+test_str2 = "  Python Programming  "
+test_str3 = "Hello,Python,World"
+
+# 1. CASE CONVERSION METHODS
+print("\n1. CASE CONVERSION METHODS:")
+print(f"   Original: '{test_str}'")
+print(f"   .upper(): '{test_str.upper()}'")
+print(f"   .lower(): '{test_str.lower()}'")
+print(f"   .capitalize(): '{test_str.capitalize()}'  # First char uppercase, rest lowercase")
+print(f"   .title(): '{test_str.title()}'  # Capitalize first letter of each word")
+print(f"   .swapcase(): '{test_str.swapcase()}'  # Toggle case of each character")
+
+# 2. WHITESPACE METHODS
+print("\n2. WHITESPACE/TRIMMING METHODS:")
+print(f"   Original: '{test_str2}' (with spaces)")
+print(f"   .strip(): '{test_str2.strip()}'  # Remove leading/trailing whitespace")
+print(f"   .lstrip(): '{test_str2.lstrip()}'  # Remove leading whitespace only")
+print(f"   .rstrip(): '{test_str2.rstrip()}'  # Remove trailing whitespace only")
+
+# 3. STRING SEARCH METHODS (returns index or -1)
+print("\n3. STRING SEARCH METHODS:")
+search_str = "Hello World, Hello Python"
+print(f"   String: '{search_str}'")
+print(f"   .find('Hello'): {search_str.find('Hello')}  # First occurrence (0-based index)")
+print(f"   .find('World'): {search_str.find('World')}")
+print(f"   .find('Ruby'): {search_str.find('Ruby')}  # Returns -1 if not found")
+print(f"   .rfind('Hello'): {search_str.rfind('Hello')}  # Last occurrence from right")
+print(f"   .index('World'): {search_str.index('World')}  # Like find() but raises error if not found")
+
+# 4. STRING COUNT METHOD
+print("\n4. STRING COUNT METHOD:")
+count_str = "banana"
+print(f"   String: '{count_str}'")
+print(f"   .count('a'): {count_str.count('a')}  # Count occurrences of substring")
+print(f"   .count('an'): {count_str.count('an')}")
+print(f"   .count('x'): {count_str.count('x')}  # Returns 0 if not found")
+
+# 5. STRING START/END CHECKING
+print("\n5. START/END CHECKING METHODS (return True/False):")
+filename = "document.pdf"
+print(f"   String: '{filename}'")
+print(f"   .startswith('doc'): {filename.startswith('doc')}")
+print(f"   .startswith('file'): {filename.startswith('file')}")
+print(f"   .endswith('.pdf'): {filename.endswith('.pdf')}")
+print(f"   .endswith('.txt'): {filename.endswith('.txt')}")
+
+# 6. STRING REPLACEMENT METHOD
+print("\n6. STRING REPLACEMENT METHOD:")
+replace_str = "I like cats, cats are cute"
+print(f"   Original: '{replace_str}'")
+print(f"   .replace('cats', 'dogs'): '{replace_str.replace('cats', 'dogs')}'")
+print(f"   .replace('cats', 'dogs', 1): '{replace_str.replace('cats', 'dogs', 1)}'  # Only 1st occurrence")
+
+# 7. STRING SPLIT METHOD (returns list)
+print("\n7. STRING SPLIT METHOD (returns list):")
+print(f"   String: '{test_str3}'")
+print(f"   .split(','): {test_str3.split(',')}  # Split by delimiter")
+split_by_space = "Python is awesome"
+print(f"   String: '{split_by_space}'")
+print(f"   .split(): {split_by_space.split()}  # Split by whitespace (default)")
+
+# 8. STRING JOIN METHOD (opposite of split)
+print("\n8. STRING JOIN METHOD (opposite of split):")
+words_list = ['Hello', 'Python', 'World']
+print(f"   List: {words_list}")
+print(f"   ' '.join(list): '{' '.join(words_list)}'  # Join with space")
+print(f"   '-'.join(list): '{'-'.join(words_list)}'  # Join with hyphen")
+print(f"   ''.join(list): '{' '.join(words_list)}'  # Join with nothing")
+
+# 9. CHARACTER TYPE CHECKING METHODS (return True/False)
+print("\n9. CHARACTER TYPE CHECKING METHODS (return True/False):")
+str1 = "12345"
+str2 = "Hello"
+str3 = "123abc"
+str4 = "   "
+print(f"   '{str1}'.isdigit(): {str1.isdigit()}  # All digits?")
+print(f"   '{str2}'.isalpha(): {str2.isalpha()}  # All alphabetic characters?")
+print(f"   '{str3}'.isalnum(): {str3.isalnum()}  # All alphanumeric (letters + digits)?")
+print(f"   '{str4}'.isspace(): {str4.isspace()}  # All whitespace?")
+print(f"   '{str2}'.isupper(): {str2.isupper()}  # All uppercase?")
+print(f"   '{str2}'.islower(): {str2.islower()}  # All lowercase?")
+print(f"   '{test_str.upper()}'.isupper(): {test_str.upper().isupper()}")
+
+# 10. STRING PADDING/ALIGNMENT METHODS
+print("\n10. STRING PADDING/ALIGNMENT METHODS:")
+pad_str = "Python"
+print(f"   Original: '{pad_str}'")
+print(f"   .center(15): '{pad_str.center(15)}'  # Center in field of 15 chars")
+print(f"   .center(15, '*'): '{pad_str.center(15, '*')}'  # Center with * as padding")
+print(f"   .ljust(15): '{pad_str.ljust(15)}'  # Left justify in 15 chars")
+print(f"   .rjust(15): '{pad_str.rjust(15)}'  # Right justify in 15 chars")
+print(f"   .zfill(10): '{pad_str.zfill(10)}'  # Pad with zeros (useful for numbers)")
+zip_code = "12345"
+print(f"   .zfill(10) for '12345': '{zip_code.zfill(10)}'")
+
+# 11. PRACTICAL EXAMPLES: COMBINING METHODS
+print("\n11. PRACTICAL EXAMPLES (Combining multiple methods):")
+user_input = "  john doe  "
+print(f"   Original input: '{user_input}'")
+processed = user_input.strip().title()
+print(f"   .strip().title(): '{processed}'  # Clean and format name")
+
+email = "  USER@EXAMPLE.COM  "
+normalized = email.strip().lower()
+print(f"   Email input: '{email}'")
+print(f"   .strip().lower(): '{normalized}'  # Normalize email")
+
+path = "C:\\Users\\John\\documents\\file.pdf"
+print(f"   File path: '{path}'")
+print(f"   .split('\\\\'): {path.split(chr(92))}")  # Split by backslash (need chr(92) for display)
+
+# 12. BONUS: USEFUL STRING FUNCTIONS
+print("\n12. BUILT-IN STRING FUNCTIONS (not methods):")
+string_for_reverse = "Python"
+print(f"   Original: '{string_for_reverse}'")
+print(f"   len(string): {len(string_for_reverse)}")
+print(f"   reversed(string) as list: {list(reversed(string_for_reverse))}")
+print(f"   max(string): '{max(string_for_reverse)}'  # Max character (by ASCII value)")
+print(f"   min(string): '{min(string_for_reverse)}'  # Min character (by ASCII value)")
+print(f"   sorted(string): {sorted(string_for_reverse)}")
+print(f"   'h' in 'Hello': {'h' in 'Hello'}")
+print(f"   'x' not in 'Hello': {'x' not in 'Hello'}")
+
 # ----------------------------
-# Operator examples: arithmetic, relational, assignment, logical
+# OPERATOR EXAMPLES
 # ----------------------------
 print("\n--- Operator examples ---")
 a = -10
@@ -192,7 +348,7 @@ print(f"{x} and {y}: {x and y}")
 print(f"{x} or {y}: {x or y}")
 print(f"not {x}: {not x}")
 
-# Combining relational and logical operators
+# Combine relational and logical operators
 print("\nCombined expressions:")
 age_check = age >= 18
 print(f"age >= 18 and weight_kg > 50: {age_check and weight_kg > 50}")
